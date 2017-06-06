@@ -1,9 +1,9 @@
-#CCCSD
+# CCCSD
 -------
 
 The clinician/consumer custom solution development environment enables people without a technical background to profit from the AsTeRICS framework. It consists of a database of AsTeRICS models and a step-by-step wizard for choosing a suitable model. For more information on AsTeRICS, please refer to [AsTeRICS on Github] (https://github.com/asterics/AsTeRICS) or the AsTeRICS website [http://www.asterics.eu](http://www.asterics.eu).
 
-##Docs
+## Docs
 
 The CCCSD consists of two major parts: a web-hosted model repository (backend) and the actual wizard (frontend).
 
@@ -29,7 +29,7 @@ To access the backend, please open ..\Backend\php\Login.php. To access the front
 
 The CCCSD is currently optimised for Firefox (53.0.3 or higher).
 
-##Licence
+## Licence
 
 Unless mentioned otherwise, the CCCSD is licensed under the Apache License, Version 2.0. You may obtain a copy of the license at
 
@@ -37,5 +37,5 @@ Unless mentioned otherwise, the CCCSD is licensed under the Apache License, Vers
  
 This software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 
-##Acknowledgement
+## Acknowledgement
 This project has received funding from the European Union’s Seventh Framework Programme for research, technological development and demonstration under grant agreement no 610510. Visit [developerspace.gpii.net] (http://developerspace.gpii.net/) to find more useful resources.

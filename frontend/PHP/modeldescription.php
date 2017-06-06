@@ -89,9 +89,9 @@ echo '
 				<nav>
 				<div class="buttonrow_r">
 					<a href="#" onclick="getModelList()" id="back" class="namebtn modelbtn">Back</a>
-					<a download="' . $fileName["fileName"] . '" href="http://localhost/Wizard/Backend/Models/M' . $id . '/M' . $id . '.acs" class="btn" onclick="countDownloads('.$id .')">Download</a>
-					<a href="javascript:pushModel()" class="btn">Send to ARE</a>
-					<a href="http://localhost/WebACS_JS/WebACS.html?../Front-End/Models/' . $fileName["fileName"] . '" class="btn">Send to ACS</a>
+					<a download="' . $fileName["fileName"] . '" href="http://localhost/Wizard_git/Backend/Models/M' . $id . '.acs" class="btn" onclick="countDownloads('.$id .')">Download</a>
+					<a href="javascript:pushModel(\'../../Backend/Models/M' . $id . '.acs\')" class="btn">Send to ARE</a>
+					<a href="http://localhost/WebACS_JS/WebACS.html?../Wizard_git/Backend/Models/M' . $id . '.acs" class="btn" target="_blank">Send to ACS</a>
 					</div>
 				</nav>
 			';

@@ -1,7 +1,7 @@
 /**
  *
  */
-function pushModel(){
+function pushModel(model){
 
 	if (window.XMLHttpRequest) {
 		// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -14,7 +14,6 @@ function pushModel(){
 		if (this.readyState == 4 && this.status == 200) {
 
 			var modelInXML = $.parseXML(xmlhttp.responseText);
-			console.log('hier');
 			
 			setBaseURI("http://localhost:8081/rest/");
 		
@@ -30,7 +29,7 @@ function pushModel(){
 
 		}			
 	};
-	xmlhttp.open("GET", "../Models/test.acs", true);
+	xmlhttp.open("GET", model, true);
 	xmlhttp.send();
 
 }
