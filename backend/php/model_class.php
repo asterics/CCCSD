@@ -58,6 +58,18 @@ class Model {
 			$error |= $this->err->CollectErrorsAltTexts('No model description entered.', 'No model description entered.', 'modelDescription');
 		}
 		
+		if (empty($_POST['devices'])){
+			$error |= $this->err->CollectErrorsAltTexts('No tech-prerequisite selected. Please select at least one tech-prerequisite.', 'No tech-prerequisite selected.','tech');
+		}
+		
+		if (empty($_POST['categories'])){
+			$error |= $this->err->CollectErrorsAltTexts('No device category selected. Please select at least one device category.', 'No device category selected.','dev');
+		}
+		
+		if (empty($_POST['functions'])){
+			$error |= $this->err->CollectErrorsAltTexts('No bodyfunction selected. Please select at least one bodyfunction.', 'No bodyfunction selected.','body');
+		}
+		
 		return $error;
 	}
 
@@ -325,7 +337,12 @@ class Model {
 	}
 	
 	public function CreateMySelectorTable($caption, $successtext, $errortext) {
-		$query = "select models.ID, name, modelDescription, filename, ID_UserModel from models inner join link_user_models on models.ID = ID_ModelUser where ID_UserModel = " . $_SESSION['ID'] . " order by name";
+		$query = "select UserID from userlogin where ID = " . $_SESSION['ID'];
+		$result = mysql_query($query);
+		$uid = mysql_fetch_array($result);
+		$uid = $uid[0];
+		
+		$query = "select models.ID, name, modelDescription, filename, ID_UserModel from models inner join link_user_models on models.ID = ID_ModelUser where ID_UserModel = " . $uid . " order by name";
 		$result = mysql_query($query);
 
 		$content = '';
@@ -441,16 +458,20 @@ class Model {
 		$result = mysql_query($query);
 		$fail = $fail || mysql_errno() != 0;
 		
-		if((!$fail) != 0){
-			$mod_id= '';
-			$query = "select id from models order by id desc limit 1";
-			$result = mysql_query($query);
-			$mod_id = mysql_fetch_array($result);
-			$this->ID = $mod_id[0];
-			
-			$query = "insert into link_user_models(ID_UserModel, ID_ModelUser) values(". $_SESSION['ID'] .", " . $this->ID .");";
-			$result = mysql_query($query);
-		}	
+		$mod_id= '';
+		$query = "select id from models order by id desc limit 1";
+		$result = mysql_query($query);
+		$mod_id = mysql_fetch_array($result);
+		$this->ID = $mod_id[0];
+		
+		$user_id = '';
+		$query = "select UserID from userlogin where ID = " . $_SESSION['ID'];
+		$result = mysql_query($query);
+		$user_id = mysql_fetch_array($result);
+		$user_id = $user_id[0];
+		
+		$query = "insert into link_user_models(ID_UserModel, ID_ModelUser) values(". $user_id .", " . $this->ID .");";
+		$result = mysql_query($query);	
 		
 		return !$fail;
 	}

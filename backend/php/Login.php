@@ -23,29 +23,43 @@
 				
 				if(password_verify($psw, $pswVerify[0]))
 				{
-					$query = 'select UserID from userlogin where username = "' . $username . '";';
+					$query = 'select ID from userlogin where username = "' . $username . '";';
 					$result = mysql_query($query);
 					$usrID = mysql_fetch_row($result);
+
+					$query = 'select UserID from userlogin where username = "' . $username . '";';
+					$result = mysql_query($query);
+					$uID = mysql_fetch_array($result);
+					$uID = $uID[0];
 					
-					if(isset($usrID[0])){
-						$_SESSION['ID'] = $usrID[0];
-						$query1 = 'select userroles.Role from link_userlogin_roles inner join userroles on role_ID = userroles.ID where userlogin_ID = ' . $usrID[0] . ' and Role = "Admin";';
-						$result1 = mysql_query($query1);
-						$admin = mysql_fetch_row($result1);
-						if(isset($admin[0])){
-							$_SESSION['admin'] = 1;
-						}else {
-							$_SESSION['admin'] = 0;
+					$query = 'select active from users where ID = ' . $uID;
+					$result = mysql_query($query);
+					$active = mysql_fetch_array($result);
+					$active = $active[0];
+					
+					if($active == 1){
+						if(isset($usrID[0])){
+							$_SESSION['ID'] = $usrID[0];
+							$query1 = 'select userroles.Role from link_userlogin_roles inner join userroles on role_ID = userroles.ID where userlogin_ID = ' . $usrID[0] . ' and Role = "Admin";';
+							$result1 = mysql_query($query1);
+							$admin = mysql_fetch_row($result1);
+							if(isset($admin[0])){
+								$_SESSION['admin'] = 1;
+							}else {
+								$_SESSION['admin'] = 0;
+							}
+							
+							$_SESSION['ID'] = $usrID[0];
+							$query1 = 'select username from Userlogin where UserID = ' . $_SESSION['ID'] . ';';
+							$result1 = mysql_query($query1);
+							$usrname = mysql_fetch_row($result1);
+							if(isset($usrname[0]))
+								$_SESSION['username'] = $usrname[0];
+							header("Location: mymodels.php");
 						}
-						
-						$_SESSION['ID'] = $usrID[0];
-						$query1 = 'select username from Userlogin where UserID = ' . $_SESSION['ID'] . ';';
-						$result1 = mysql_query($query1);
-						$usrname = mysql_fetch_row($result1);
-						if(isset($usrname[0]))
-							$_SESSION['username'] = $usrname[0];
-						header("Location: mymodels.php");
-					}
+					} else {
+						$error = "Username or password invalid.";
+					} 
 				}else {
 					$error = "Password invalid.";
 				}

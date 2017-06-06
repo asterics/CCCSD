@@ -109,7 +109,7 @@
 										$user->loginID = $_GET['ID'];
 										$user->LoadDB();
 										$_SESSION['user'] = $user;
-										echo $user->CreateForm('Update user "' . $user->username . '"', "users.php?action=update&amp;state=do", '');
+										echo $user->CreateUpdateForm('Update user "' . $user->username . '"', "users.php?action=update&amp;state=do", '');
 									} else {
 										echo $user->CreateSelector('user update', "users.php?action=update&amp;state=edit", '');
 									}
@@ -120,7 +120,8 @@
 									$user->lastName = $_POST['lastName'];
 									$user->email = $_POST['email'];
 									$user->password = $_POST['password'];
-									$err = $user->ValidateFormData();
+									$user->vpassword = $_POST['vpassword'];
+									$err = $user->ValidateUpdateFormData();
 									if (!$err) {
 										$_SESSION['user'] = $user;
 										if($user->UpdateDB()){
@@ -159,13 +160,23 @@
 									$user->ID = $_GET['ID'];
 									$user->loginID = $_GET['LoginID'];
 									$user->LoadDB();
+									$logout = false;
 									
-									$_SESSION['user'] = $user;								
+									if($user->loginID == $_SESSION['ID'])
+										$logout = true;
+									
+									$_SESSION['user'] = $user;	
+									
 									if ($user->DeleteDB()) {
-											header("Location: users.php?action=delete&state=ok");					
-										} else {
-											header("Location: users.php?action=delete&state=error");					
+										if($logout == true){
+											$logout = false;
+											header("Location: Login.php");
 										}
+										else
+											header("Location: users.php?action=delete&state=ok");
+									}else {
+										header("Location: users.php?action=delete&state=error");					
+									}
 									break;
 							} 
 						} else {

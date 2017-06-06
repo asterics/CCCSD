@@ -47,8 +47,30 @@ class User {
 			if(isset($username)){
 				$error |= $this->err->CollectErrorsAltTexts('Username is already taken. Please choose a different username.', 'Username taken.', 'unameTaken');
 			}
+		}	
+		
+		if ($this->password != $this->vPassword){
+			$error |= $this->err->CollectErrorsAltTexts('Passwords do not match. Please reenter your passwords', 'Passwords do not match.', 'vpassword');
 		}
-
+		
+		return $error;
+	}
+	
+	public function ValidateUpdateFormData(){
+		$this->err = new Errors();
+		$error = false;
+		if ($this->firstName == '') {
+			$error |= $this->err->CollectErrorsAltTexts('No first name entered. Please enter a first name.', 'No first name entered.', 'firstName');
+		}
+		
+		if ($this->lastName == '') {
+			$error |= $this->err->CollectErrorsAltTexts('No last name entered. Please enter a last name', 'No last name entered.', 'lastName');
+		}
+		
+		if ($this->email == '') {
+			$error |= $this->err->CollectErrorsAltTexts('No email entered. Please enter an email address.', 'No email entered.', 'email');
+		}
+		
 		if ($this->password == '') {
 			$error |= $this->err->CollectErrorsAltTexts('No password entered. Please enter a password.', 'No password entered.', 'password');
 		}		
@@ -56,8 +78,6 @@ class User {
 		if ($this->password != $this->vPassword){
 			$error |= $this->err->CollectErrorsAltTexts('Passwords do not match. Please reenter your passwords', 'Passwords do not match.', 'vpassword');
 		}
-		
-		return $error;
 	}
 
 	public function CreateForm($caption, $formaction, $successtext) {
@@ -134,12 +154,15 @@ class User {
 			$content .= '<div class="errorMessage"><p>' . $errortext . '</p></div>';
 		}
 		$content .= '<form action="' . $formaction . '" method="post" name="user" ID="user" enctype="multipart/form-data">';
-		$content .= '<fieldset><legend>user</legend>';
-		$content .= createTextInput('First name', 'qualilabel', 'firstName', 'qualiinput_medium', $this->firstName, true, $errorlist, $erroralttextlist);
-		$content .= createTextInput('Last name', 'qualilabel', 'lastName', 'qualiinput_medium', $this->lastName, true, $errorlist, $erroralttextlist);
-		$content .= createTextInput('Email', 'qualilabel', 'email', 'qualiinput_medium', $this->email, true, $errorlist, $erroralttextlist);
-		$content .= createTextInput('Password', 'qualilabel', 'password', 'qualiinput_medium', $this->password, true, $errorlist, $erroralttextlist);
-		
+		$content .= '<fieldset class="userContainer"><legend>user</legend>';
+		$content .= '<div class="userFormContainer">';
+		$content .= createTextInput('First name', 'qualilabel', 'firstName', 'qualiinput_medium', $this->firstName, true, $errorlist, $erroralttextlist) . '<br />';
+		$content .= createTextInput('Last name', 'qualilabel', 'lastName', 'qualiinput_medium', $this->lastName, true, $errorlist, $erroralttextlist) . '<br />';
+		$content .= createTextInput('Email', 'qualilabel', 'email', 'qualiinput_medium', $this->email, true, $errorlist, $erroralttextlist) . '<br />';
+		$content .= createPassword('Password', 'Verify Password', 'qualilabel', 'password', 'vpassword', 'qualiinput_medium', true, $errorlist, $erroralttextlist) . '<br />';
+		$content .= '</div>';
+
+		$content .= '<fieldset class="formContainer"><legend>Roles</legend><div class="roles">';
 		if($_SESSION['admin'] == 1){
 			$queryRoles = "select Role, ID from userroles";
 			$resultRoles = mysql_query($queryRoles);
@@ -158,13 +181,14 @@ class User {
 			
 			while(list($rName, $rID) = mysql_fetch_row($resultRoles)){
 				if(isset($roleIDs[$rID])){
-					$content .= '<input type="checkbox" name="Roles[]" ID="' . $rName . '" value="' . $rID . '" checked/>' . $rName;
+					$content .= '<input type="checkbox" name="Roles[]" ID="' . $rName . '" value="' . $rID . '" checked/>' . $rName . '<br />';
 				}
 				else
-					$content .= '<input type="checkbox" name="Roles[]" ID="' . $rName . '" value="' . $rID . '" />' . $rName;
+					$content .= '<input type="checkbox" name="Roles[]" ID="' . $rName . '" value="' . $rID . '" />' . $rName . '<br />';
 			}
 			
 		}
+		$content .= '</fieldset>';
 		
 		$content .= '</fieldset>';
 		$content .= '<div class="buttonContainer">';
@@ -198,8 +222,11 @@ class User {
 		
 		$query = "select userlogin.ID, UserID, Username, FirstName, LastName, Email from userlogin inner join users on userlogin.userID = users.ID";
 		if($_SESSION['admin'] != 1)
-			$query .=  " where UserID = " . $_SESSION['ID'];
+			$query .=  " where userlogin.ID = " . $_SESSION['ID'];
+		else{
+			$query .= " where active = 1"; 
 		$query .= " order by Username asc";
+		}
 		$result = mysql_query($query);
 
 		$content = '';
@@ -272,10 +299,13 @@ class User {
 				//}
 				$content .=	'		</td>';
 				$content .=	'		<td style="text-align: center;" class="image">';
-				//if ($res1 == 0) {
-					$content .= '		<a href="users.php?action=delete&amp;state=do&amp;LoginID=' . $id . '&amp;ID=' . $uid . '" onclick="return confirm(\'Delete user &quot;' . $Username .'&quot;?\');">';
+				if ($_SESSION['ID'] == $id) {
+					$content .= '		<a href="users.php?action=delete&amp;state=do&amp;LoginID=' . $id . '&amp;ID=' . $uid . '" onclick="return confirm(\'With this action, your account will be removed from the website, and you will be logged out, continue?\');">';
 					$content .= '		<img src="../images/delete.png" alt="Delete user &quot;' . $Username .'&quot;" title="Delete user &quot;' . $Username .'&quot;" class="UserIcons" /></a>';
-				//}
+				} else{
+					$content .= '		<a href="users.php?action=delete&amp;state=do&amp;LoginID=' . $id . '&amp;ID=' . $uid . '" onclick="return confirm(\'Delete user &quot;' . $Username . '&quot;?\');">';
+					$content .= '		<img src="../images/delete.png" alt="Delete user &quot;' . $Username .'&quot;" title="Delete user &quot;' . $Username .'&quot;" class="UserIcons" /></a>';
+				}
 				$content .=	'		</td>';
 				$content .= '	</tr>';
 				$i++;
@@ -364,7 +394,6 @@ class User {
 		$fail = $fail || mysql_errno() != 0;
 		
 		//fetch latest added userlogin id
-		$file_id= '';
 		$query = "select ID from userlogin order by ID desc limit 1";
 		$resultid = mysql_query($query);
 		$user_id = mysql_fetch_array($resultid);
@@ -381,7 +410,7 @@ class User {
 		$query = "delete from link_userlogin_roles where userlogin_ID = " . $this->loginID . ";";
 		echo mysql_query($query);
 		
-		$query = "update users set FirstName = '" . mysql_real_escape_string($this->firstName) . "', LastName = '" . mysql_real_escape_string($this->lastName) . "', Email = '" . $this->email ."' where ID = " . $this->ID . ";";
+		$query = "update users set FirstName = '" . mysql_real_escape_string($this->firstName) . "', LastName = '" . mysql_real_escape_string($this->lastName) . "', Email = '" . mysql_real_escape_string($this->email) ."' where ID = " . $this->ID . ";";
 		$result = mysql_query($query);
 		
 		if($this->password != ''){	
@@ -395,139 +424,31 @@ class User {
 	}
 	public function DeleteDB() {
 		$fail = false;
-		$query = "delete from link_user_bodyfunctions where ID_UserBody = " . $this->ID . ";";
-		echo mysql_query($query);
-		$query = "delete from link_user_models where ID_UserModel = " . $this->ID . ";";
-		echo mysql_query($query);
-		$query = "delete from link_userlogin_roles where userlogin_ID = " . $this->loginID . ";";
-		echo mysql_query($query);
-		$query = "delete from userlogin where UserID = " . $this->ID . ";";
-		echo mysql_query($query);
-		$query = "delete from users where ID = " . $this->ID . ";";
-		echo mysql_query($query);
-		$result = mysql_query($query);
-		$fail = $fail || mysql_errno() != 0;
 		
+		$query = "select count(ID_UserModel) from link_user_models where ID_UserModel = " . $this->ID . ";";
+		$result = mysql_query($query);
+		
+		while(list($count) = mysql_fetch_row($result)){
+			if($count > 0){
+				$query = "update users set active = 0 where ID = " . $this->ID . ";";
+				echo mysql_query($query);
+				$fail = $fail || mysql_errno() != 0;
+			}
+			else{
+				$query = "delete from link_user_bodyfunctions where ID_UserBody = " . $this->ID . ";";
+				echo mysql_query($query);
+				$query = "delete from link_userlogin_roles where userlogin_ID = " . $this->loginID . ";";
+				echo mysql_query($query);
+				$query = "delete from userlogin where UserID = " . $this->ID . ";";
+				echo mysql_query($query);
+				$query = "delete from users where ID = " . $this->ID . ";";
+				echo mysql_query($query);
+				$result = mysql_query($query);
+				$fail = $fail || mysql_errno() != 0;
+			} 
+		}
 		
 		return !$fail;
-	}
-	
-	//File upload
-	public function userUpload($tmp_file) {
-		
-		//get latest added ID
-		$file_id= '';
-		$query = "select ID from users order by ID desc limit 1";
-		$result = mysql_query($query);
-		$file_id = mysql_fetch_array($result);
-		$ID = $file_id[0];
-		
-		$target_dir = "../users/M" . $ID . "/";
-		$target_file = $this->filename;
-		$err = 1;
-		$errMsg = '<div class="errorMessage"><p>';
-		$succMsg = '<div class="successMessage"><p>user "'. basename($target_file) . '" was successfully uploaded</p></div>';
-		$modFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-		
-		//Check if directory exists
-		if(!file_exists($target_dir)){
-				mkdir($target_dir);
-		}
-		
-		//Check if file exists
-		/* 
-		if(file_exists($upload_file)){
-			if(!unlink($target_dir . basename($upload_file))){		
-				$err = 0;
-			}
-		}*/
-		
-		//Check if file is .acs
-		if($modFileType != "acs"){
-			$errMsg += 'user "'. basename($target_file) . '" file extension not supported.';
-			$err = 0;
-		} else {
-			$upload_file = $target_dir .'M' . $ID . '.acs';
-		}
-		
-		//Check if Errors occurred
-		if(!$err){
-			$errMsg += '</div></p>';
-			return $err;
-		}
-		
-		//file upload
-		else{
-			if(move_uploaded_file($tmp_file, $upload_file))
-				return $err;
-			else{
-				$errMsg += 'user "'. basename($upload_file) . '" could not be uploaded</div></p>';
-				$err = 0;
-				return $err;
-			}
-		}
-			
-	}
-	
-	public function userUpdate()
-	{
-		$target_dir = "../users/M" . $ID . "/";
-		$target_file = $this->filename;
-		$err = 1;
-		$errMsg = '<div class="errorMessage"><p>';
-		$succMsg = '<div class="successMessage"><p>user "'. basename($target_file) . '" was successfully uploaded</p></div>';
-		$modFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-		
-		//Check if directory exists
-		if(!file_exists($target_dir)){
-				mkdir($target_dir);
-		}
-		
-		//Check if file is .acs
-		if($modFileType != "acs"){
-			$errMsg += 'user "'. basename($target_file) . '" file extension not supported.';
-			$err = 0;
-		} else {
-			$upload_file = $target_dir .'M' . $ID . '.acs';
-		}
-		
-		//Delete previous user file
-		if(file_exists($upload_file)){
-			if(!unlink($upload_file)){		
-				$err = 0;
-			}
-		}
-		
-		//Check if Errors occurred
-		if(!$err){
-			$errMsg += '</div></p>';
-			return $err;
-		}
-		
-		//file upload
-		else{
-			if(move_uploaded_file($tmp_file, $upload_file))
-				return $err;
-			else{
-				$errMsg += 'user "'. basename($upload_file) . '" could not be uploaded</div></p>';
-				$err = 0;
-				return $err;
-			}
-		}	
-	}
-	
-	//File Remove
-	public function Removeuser()
-	{
-		$target_dir = "../users/M". $this->ID."/";
-		$target_file = "M".$this->ID.".acs";
-		$err=1;
-		
-		if(unlink($target_dir . basename($target_file)))
-			return $err;
-		
-		else
-			return $err = 0;
 	}
 	
 	public function UserLinkRole($link)
