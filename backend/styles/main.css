@@ -1,0 +1,552 @@
+body
+{
+	margin:0;
+	font-family: arial;
+	padding: 1em;
+}
+
+li.username{
+	position: inline-block;
+	margin-left: 60em;
+}
+
+li.logout {
+	width: 700px;
+    height: 200px;
+    position: relative;
+
+    text-align: center;
+}
+
+label.username {
+	font-weight:bold;
+}
+
+label.attrCbx{
+	display:inline-block;
+	width:7em;
+	overflow:hidden;
+	vertical-align:middle;
+}
+
+li a 
+{
+	display: block;
+	color: black;
+}	
+
+li a:hover
+{
+	color:white;
+}
+
+#mainmenu li a:hover
+{
+	color:black;
+}
+
+#mainmenu {
+	width:100%;
+}
+
+
+#mainmenu ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}	
+
+#mainmenu li {
+	display: inline-block;
+	text-align: center;
+}
+
+#mainmenu li a {
+	display: inline-block;
+	width: 9em;
+	padding: 0.5em;
+	padding-left:0;
+	border: 1px solid black;
+	border-top-left-radius: 0.25em;
+	border-top-right-radius: 0.25em;
+	border-bottom: none;
+	text-decoration:none;
+	font-size:18px;
+}
+
+#mainmenu li.main a {
+	background-color: #98DFF6;
+}
+
+.submenumaincontainer {
+	border: 1px solid #000000;
+}
+
+#submenu {
+	width: 12em;
+	float: left;
+}
+
+#submenu ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	text-align: left;
+}	
+
+#submenu li {
+	
+}
+
+#submenu li a {
+	display: inline-block;
+	width: 11em;
+	padding: 0.5em;
+	border-bottom: 1px solid black;
+	background-color:#00b9f6;
+	text-decoration: none;
+	color:black;
+}
+
+#submenu li{
+	border-bottom: 1px solid black;
+}
+
+#submenu li.side_active a {
+	background-color:#90e3ff;
+}
+
+a.err{
+	text-decoration:inherit;
+	color:inherit;
+}
+
+li a.err:hover
+{
+	color:red;
+}
+
+li.row_1 {
+	width:33%;
+	display:inline-block;
+}
+
+li.row_11 {
+	width:33%;
+	display:inline-block;
+}
+
+li.row_111 {
+	width:33%;
+	display:inline-block;
+}
+
+main {
+	margin-left: 12em;
+	padding: 1em;
+	border-left: 1px solid #000000;
+	padding-bottom: 2em;
+}
+
+main h1 {
+	padding: 0em;
+	margin: 0em;
+	font-size: 150%;
+}
+	
+th
+{
+	font-style:bold;
+}
+
+ul{
+	list-style-type:none;
+}
+
+ul.errorSummary{
+	vertical-align:middle;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+div.formContent{
+	display:block;
+	font-size:1.1em;
+}
+
+div.tech_row_container{
+	display:flex;
+}
+
+div.tech_row{
+	width:33%;
+}
+
+div.Login{
+	border: solid 2px #1ca8b2;
+	width:80%;
+	padding:4em;
+	margin-left:2em;
+	margin-top:3em;
+	font-size:18px;
+}
+
+div.successMessage{
+	font-weight:bold;
+	color: green;
+	border: solid 2px green;
+	text-align:center;
+	margin-top:1em;
+	margin-bottom:1em;
+}
+
+div.errorMessage{
+	color: red;
+	border: solid 2px red;
+	margin-left:4em;
+	margin-right:4em;
+	margin-bottom:2em;
+	margin-top:2em;
+	font-weight:bold;
+	padding-left:27%;
+}
+
+div.errorMessageData{
+	color: red;
+	border: solid 2px red;
+	margin-left:4em;
+	margin-right:4em;
+	margin-bottom:2em;
+	margin-top:2em;
+	font-weight:bold;
+	padding-left:35%;
+}
+
+div.buttonContainer{
+	display:inline-block;
+	padding-left:35%;
+	padding-right:30%;
+	margin-top:1.5em;
+}
+
+div.formrowText{
+	display:inline-block;
+	margin-top:2em;
+}
+
+div.roles{
+	display:block;
+	padding-left:10em;
+}
+
+div.formrowLabel{
+	display:inline-block;
+	margin-top:2em;
+	width:10em;
+}
+
+div.formrowFile{
+	display:inline-block;
+	margin-top:2em;
+}
+
+div.formrowArea{
+	width:12em;
+	margin-top:1em;
+}
+
+div.formrowAreaInput{
+	margin-top:2em;
+}
+
+div.formrowPass{
+	display:inline-block;
+	margin-top:2em;
+	margin-right:2em;
+}
+
+div.err{
+	margin-bottom:2em;
+}
+
+div.userFormContainer{
+	padding:1em;
+	padding-left:2em;
+}
+
+fieldset.parentContainer{
+	width: 70%;
+	margin-left:auto;
+	margin-right:auto;
+	
+	border: solid 3px #86d7ef;
+	box-shadow: 3px 3px 5px #666666;
+}
+
+fieldset.userContainer{
+	width: 80%;
+	margin-left:auto;
+	margin-right:auto;
+	
+	margin-top:3em;
+	margin-bottom:3em;
+	
+	border: solid 3px #86d7ef;
+	box-shadow: 3px 3px 5px #666666;
+}
+
+fieldset.attributeContainer{
+	width: 70%;
+	margin-left:auto;
+	margin-right:auto;
+	border: solid 3px #86d7ef;
+	box-shadow: 3px 3px 5px #666666;
+}
+
+fieldset.formContainer{
+	width:90%;
+	margin-left:1.5em;
+	border: none;
+	margin-top:2.5em;
+}
+
+fieldset.login{
+	width:70%;
+	height: 60%;
+	display:block;
+	text-align:center;
+	background-color: #ffffff;
+	margin:auto;
+	margin-top:9em;
+	
+	position:absolute;
+	top:3em;
+	right:0;
+	left:0;
+	bottom:0;
+	
+	border: solid 2px #1ca8b2;
+	
+	box-shadow: 15px 15px 5px grey;
+}
+
+#login{
+	text-align:center;
+}
+
+table, th, tr, td {
+	text-align: left;
+	border: 1px solid #000000;
+}
+
+caption {
+	font-weight:bold;
+}
+
+td.modname {
+	width: 30%;
+}
+
+td.image {
+	width: 30%;
+}
+
+td.id, th.id {
+	width: 6%;
+	text-align:right;
+	margin:auto;
+	padding-right:21px;
+}
+
+td.approved{
+	width: 5%;
+}
+
+td.username {
+	width:30%;
+}
+
+img.Icons {
+	width: 40%;
+	display:block;
+	margin:auto;
+}
+
+img.DataIcons {
+	width: 5%;
+}
+
+img.DataIconsGrey {
+	width: 5%;
+	opacity: 0.5;
+}
+
+img.UserIcons {
+	width:25px;
+}
+
+img.required {
+	width: 0.5%;
+}
+
+img.error {
+	width:1.3em;
+}
+
+img.errSum{
+	width:1.1em;
+	vertical-align:middle;
+	margin-bottom:0.3em;
+}
+
+img.suc{
+	width:1.5em;
+	vertical-align:middle;
+	margin-right:0.4em;
+}
+
+img.asterics{
+	/*display: inline-block;
+	margin:auto;
+	width: 85%;
+	padding-top: 1.5em;
+	padding-left: 0.5em;*/
+	width:10%;
+	padding-left: 1em; 
+	margin-bottom: 0.5em;
+}
+
+img.asterics_login{
+	margin:auto;
+	display:block;
+	width:12em;
+	margin-top:1em;
+}
+
+span {
+	background-repeat: no-repeat;
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+    vertical-align: middle;
+	margin-right:0.5em;
+}
+
+span.users {
+	background-image: url(../images/users.png);
+    
+}
+
+span.models {
+	background-image: url(../images/models.png);
+}
+
+
+span.myModels {
+	background-image: url(../images/mymodel.png);
+}
+
+
+tr:nth-child(even) {
+    background-color: #8bcde0;
+}
+
+input.button
+{
+	position: relative;
+	top: 14px;
+	bottom: 1px;
+	left: 0px;
+	margin-right: 25px;
+	font-family: arial;
+	font-size: 16px;
+}
+
+input.formButtonSave{
+	/*position: relative;
+	top: 14px;
+	bottom: 1px;
+	left: 147px;*/
+	font-family: arial;
+	font-size: 18px;
+	width: 8%;
+	padding-right: 4.5em;
+	padding-left:2em;
+	margin-right:6em;
+}
+
+input.formButtonCancel{
+	/*position: relative;
+	top: 14px;
+	bottom: 1px;
+	left: 730px;
+	margin-right: 20px;*/
+	font-family: arial;
+	font-size: 18px;
+	width: 8%;
+	padding-right:4.5em;
+	padding-left:2em;
+}
+
+input.dataButton{
+	position: relative;
+	top: 0px;
+	bottom: 0px;
+	left: 2px;
+	margin-right: 1em;
+	font-family: arial;
+	font-size: 14px;
+}
+
+input.qualiinput_medium{
+	width:300px;
+	/*margin-bottom:2em;*/
+	font-size:1em;
+}
+
+input.Logout{
+	position: absolute;
+    top: 11.7em;
+    right: 20px;
+	font-family: arial;
+	font-size: 16px;
+	padding-left: 2em;
+	padding-right: 2em;
+}
+
+input.attrCbx{
+	display:inline-block;
+	vertical-align:middle;
+}
+
+button.Login{
+	font-size:18px;
+	padding:0.1em;
+	padding-left:3em;
+	padding-right:3em;
+}
+
+p.hidden{
+	visibility: hidden;
+}
+
+p.errMsg{
+	color:red;
+	border: solid 2px red;
+	display:inline-block;
+	padding:0.5em;
+}
+
+
+
+#actions
+{
+	
+}
+
+#new
+{
+	border-style:none;
+}
