@@ -136,8 +136,8 @@ if ($anzahl != 0) {
 
 		echo '<td class="id">' . $row["ID"] . '</td>';
 		echo '<td scope="row"  id="' . $row["ID"] . '"><a href="#" class="name" onclick="getModel(' . $row["ID"] . ')">' . $row["name"] . '</a></th>';
-		echo '<td class="interactions"><a id="downloadModel" download="' . $row["fileName"] . '" href="http://localhost/Wizard_git/Backend/Models/M' . $row["ID"] . '.acs"><img src="../Pictures/1.svg" alt="Download ' . $row["name"] . '" title="Download ' . $row["name"] . '" class="pic"></a></td>';
-		echo '<td class="interactions" title="Send ' . $row["name"] . ' to ACS"><a href="http://localhost/WebACS_JS/WebACS.html?../Wizard_git/Backend/Models/M' . $row["ID"] . '.acs" target="_blank"><img src="../Pictures/2.svg" alt="Send ' . $row["name"] . ' to ACS" title="Send ' . $row["name"] . ' to ACS" class="pic"></a></td>';
+		echo '<td class="interactions"><a id="downloadModel" download="' . $row["fileName"] . '" href="../../Backend/Models/M' . $row["ID"] . '.acs"><img src="../Pictures/1.svg" alt="Download ' . $row["name"] . '" title="Download ' . $row["name"] . '" class="pic"></a></td>';
+		echo '<td class="interactions" title="Send ' . $row["name"] . ' to ACS"><a href="../../../WebACS_JS/WebACS.html?../Wizard_git/Backend/Models/M' . $row["ID"] . '.acs" target="_blank"><img src="../Pictures/2.svg" alt="Send ' . $row["name"] . ' to ACS" title="Send ' . $row["name"] . ' to ACS" class="pic"></a></td>';
 		echo '<td class="interactions" title="Send ' . $row["name"] . ' to ARE"><a href="javascript:pushModel(\'../../Backend/Models/M' . $row["ID"] . '.acs\')"><img src="../Pictures/2.svg" alt="Send ' . $row["name"] . ' to ARE" title="Send ' . $row["name"] . ' to ARE" class="pic"></a></td>';
 		echo '</tr>';
 
