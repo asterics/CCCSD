@@ -105,6 +105,14 @@ footer a {
 	color: #000000;
 }
 
+a:hover {
+	text-decoration: underline;
+}
+
+.admin_link {
+	margin-left: 56em;
+}
+
 .buttonrow {
 	position: relative;
 	height: 2em;

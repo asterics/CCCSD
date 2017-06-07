@@ -25,7 +25,7 @@ The wizard then gives the user a list of suitable models, the details of which c
 •	Send to ARE: directly deploys the model to the ARE, ready to use (for the latest ARE, see https://github.com/asterics/AsTeRICS)
 For the communication between the wizard and the ARE the AsTeRICS REST-library is used.
 
-To access the backend, please open ..\Backend\php\Login.php. To access the frontend, please open ..\Frontend\HTML\index.html. 
+To access the frontend, please open ..\Frontend\HTML\index.html. You can enter the backend via the "admin"-link in the footer of the frontend.
 
 The CCCSD is currently optimised for Firefox (53.0.3 or higher).
 
