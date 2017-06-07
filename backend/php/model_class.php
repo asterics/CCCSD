@@ -559,8 +559,7 @@ class Model {
 			$errMsg += 'Model "'. basename($target_file) . '" file extension not supported.';
 			$err = 0;
 		} else {
-			//$upload_file = $target_dir .'M' . $id . '.acs';
-			$upload_file = $target_dir . $this->filename;
+			$upload_file = $target_dir .'M' . $this->ID . '.acs';
 		}
 		
 		//Check if Errors occurred
@@ -591,7 +590,7 @@ class Model {
 	
 	public function ModelUpdate($tmp_file)
 	{
-		$target_dir = "../models/M" . $this->ID . "/";
+		$target_dir = "../models/";
 		$target_file = $this->filename;
 		$err = 1;
 		$errMsg = '<div class="errorMessage"><p>';
