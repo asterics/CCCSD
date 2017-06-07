@@ -24,7 +24,7 @@ function GetBodyFunctions() {
 			document.getElementById("category").innerHTML = 'What body functions can / do you want to use?</br></br>If you choose nothing here, we will show you the available models regardless of hardware.';
 			document.getElementById("prevQ").style.visibility='visible';
 			setTimeout('move(75);',50);
-			localStorage.setItem("Page","BodyFunctions");
+			sessionStorage.setItem("Page","BodyFunctions");
 			document.getElementById("prevQ").onclick = function() {
 				saveChecked(index);
 				GetPreRequisits();

@@ -24,7 +24,7 @@ function GetPreRequisits() {
 			document.getElementById("prevQ").style.visibility = 'visible';
 			document.getElementById("category").innerHTML = 'What hardware do you have available / are you willing to buy? </br></br>If you choose nothing here, we will show you the available models regardless of hardware.';															
 			setTimeout('move(50);', 50);
-			localStorage.setItem("Page", "TechPreRequisits");
+			sessionStorage.setItem("Page", "TechPreRequisits");
 			document.getElementById("next").onclick = function() {
 				saveChecked(index);
 				GetBodyFunctions();

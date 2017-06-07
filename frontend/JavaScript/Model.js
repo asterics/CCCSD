@@ -21,8 +21,8 @@ function getModel(id) {
 			document.getElementById("main").innerHTML = this.responseText;
 			document.getElementById("header").style.borderBottom = "1px solid #18bef0";
 			document.getElementById("header").style.paddingBottom = "0em";
-			localStorage.setItem("Page", "Model");
-			localStorage.setItem("ModelID", id);
+			sessionStorage.setItem("Page", "Model");
+			sessionStorage.setItem("ModelID", id);
 		}
 	};
 	xmlhttp.open("GET", "../PHP/modeldescription.php?id=" + id, true);
@@ -47,7 +47,7 @@ function getModelList() {
 			document.getElementById("main").innerHTML = this.responseText;
 			document.getElementById("header").style.borderBottom = "";
 			document.getElementById("header").style.paddingBottom = "0em";
-			localStorage.setItem("Page", "Modellist");
+			sessionStorage.setItem("Page", "Modellist");
 			setTimeout('move(100);', 50);
 		}
 	};
@@ -157,23 +157,23 @@ function onload() {
 
 	
 	
-	CheckedBody = JSON.parse(localStorage.getItem("CheckedBody"));
-	CheckedTechPre = JSON.parse(localStorage.getItem("CheckedTechPre"));
-	CheckedDevice = JSON.parse(localStorage.getItem("CheckedDevice"));
-	DeviceArray = JSON.parse(localStorage.getItem("DeviceArray"));
-	TechPreArray = JSON.parse(localStorage.getItem("TechPreArray"));
-	BodyArray = JSON.parse(localStorage.getItem("BodyArray"));
-	ModelID = localStorage.getItem("ModelID");	
+	CheckedBody = JSON.parse(sessionStorage.getItem("CheckedBody"));
+	CheckedTechPre = JSON.parse(sessionStorage.getItem("CheckedTechPre"));
+	CheckedDevice = JSON.parse(sessionStorage.getItem("CheckedDevice"));
+	DeviceArray = JSON.parse(sessionStorage.getItem("DeviceArray"));
+	TechPreArray = JSON.parse(sessionStorage.getItem("TechPreArray"));
+	BodyArray = JSON.parse(sessionStorage.getItem("BodyArray"));
+	ModelID = sessionStorage.getItem("ModelID");	
 		
-	if (localStorage.getItem("Page") == "DeviceCategory") {
+	if (sessionStorage.getItem("Page") == "DeviceCategory") {
 		setTimeout('GetDevices();',50);
-	} else if (localStorage.getItem("Page") == "TechPreRequisits") {
+	} else if (sessionStorage.getItem("Page") == "TechPreRequisits") {
 		setTimeout('GetPreRequisits();',50);
-	} else if (localStorage.getItem("Page") == "BodyFunctions") {
+	} else if (sessionStorage.getItem("Page") == "BodyFunctions") {
 		setTimeout('GetBodyFunctions();',50);
-	} else if (localStorage.getItem("Page") == "Modellist") {
+	} else if (sessionStorage.getItem("Page") == "Modellist") {
 		setTimeout('getModelList();',50);
-	} else if (localStorage.getItem("Page") == "Model") {	
+	} else if (sessionStorage.getItem("Page") == "Model") {	
 		getModel(ModelID);
 	}
 	else{
@@ -184,12 +184,12 @@ function onload() {
 
 function unload() {
 
-	localStorage.setItem("CheckedBody", JSON.stringify(CheckedBody));
-	localStorage.setItem("CheckedTechPre", JSON.stringify(CheckedTechPre));
-	localStorage.setItem("CheckedDevice", JSON.stringify(CheckedDevice));
-	localStorage.setItem("DeviceArray", JSON.stringify(DeviceArray));
-	localStorage.setItem("TechPreArray", JSON.stringify(TechPreArray));
-	localStorage.setItem("BodyArray", JSON.stringify(BodyArray));
+	sessionStorage.setItem("CheckedBody", JSON.stringify(CheckedBody));
+	sessionStorage.setItem("CheckedTechPre", JSON.stringify(CheckedTechPre));
+	sessionStorage.setItem("CheckedDevice", JSON.stringify(CheckedDevice));
+	sessionStorage.setItem("DeviceArray", JSON.stringify(DeviceArray));
+	sessionStorage.setItem("TechPreArray", JSON.stringify(TechPreArray));
+	sessionStorage.setItem("BodyArray", JSON.stringify(BodyArray));
 }
 
 function start(){

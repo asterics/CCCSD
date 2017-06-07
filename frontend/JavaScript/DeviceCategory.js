@@ -25,7 +25,7 @@ function GetDevices() {
 			document.getElementById("title").innerHTML = "Device Categories";
 			document.getElementById("category").innerHTML = 'What do you want to control? </br></br>If you choose nothing here, we will show you the available models regardless of hardware.';
 			document.getElementById("prevQ").style.visibility = 'hidden';
-			localStorage.setItem("Page", "DeviceCategory");
+			sessionStorage.setItem("Page", "DeviceCategory");
 			setTimeout('move(25);', 50);
 			document.getElementById("next").onclick = function() {
 				saveChecked(index);
