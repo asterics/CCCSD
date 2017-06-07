@@ -35,9 +35,9 @@
 		<ul class ="vertical">
 		<li class="side_active"><a href="users.php">Users</a></li>
 		<?php
-			if($_SESSION['admin'] == 1){
-				echo '<li class="side"><a href="roles.php">Roles</a></li>';
-			}
+		/*	if($_SESSION['admin'] == 1){
+				echo '<li class="side"><a href="roles.php">Roles</a></li>'; // prepared for future extension of user management
+			}*/
 		?>
 		</ul>
 	</nav>
