@@ -64,7 +64,7 @@
 									break;
 								case "error":
 									$model = $_SESSION['model'];
-									echo $model->CreateSelectorTable('Models', '', 'model &quot;' . $model->name . '&quot; could not be saved.');
+									echo $model->CreateSelectorTable('Models', '', 'model &quot;' . $model->name . '&quot; could not be saved. ');
 									break;
 								case "do":
 									$model->name = $_POST['name'];

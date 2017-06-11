@@ -36,6 +36,10 @@ class User {
 			$error |= $this->err->CollectErrorsAltTexts('No email entered. Please enter an email address.', 'No email entered.', 'email');
 		}
 		
+		if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+			$error |= $this->err->CollectErrorsAltTexts('Entered email is of invalid format. Please reenter your email address.', 'Invalid email format.', 'email');	
+		}
+		
 		if ($this->username == '') {
 			$error |= $this->err->CollectErrorsAltTexts('No username entered. Please enter a username', 'No email entered.', 'username');
 		}
@@ -49,8 +53,16 @@ class User {
 			}
 		}	
 		
+		if ($this->password == ''){
+			$error |= $this->err->CollectErrorsAltTexts('No password entered. Please enter a password.', 'No password entered.', 'password');
+		}
+		
 		if ($this->password != $this->vPassword){
-			$error |= $this->err->CollectErrorsAltTexts('Passwords do not match. Please reenter your passwords', 'Passwords do not match.', 'vpassword');
+			$error |= $this->err->CollectErrorsAltTexts('Passwords do not match. Please reenter your passwords.', 'Passwords do not match.', 'password');
+		}
+		
+		if(empty($_POST['Roles'])){
+			$error |= $this->err->CollectErrorsAltTexts('No user role selected. Please select at least one of the available user roles.', 'No user role selected.', 'roles');
 		}
 		
 		return $error;
@@ -78,6 +90,8 @@ class User {
 		if ($this->password != $this->vPassword){
 			$error |= $this->err->CollectErrorsAltTexts('Passwords do not match. Please reenter your passwords', 'Passwords do not match.', 'vpassword');
 		}
+		
+		return $error;
 	}
 
 	public function CreateForm($caption, $formaction, $successtext) {
@@ -121,11 +135,22 @@ class User {
 			}
 			
 			while(list($rName, $rID) = mysql_fetch_row($resultRoles)){
-				if(isset($roleIDs[$rID])){
-					$content .= '<input type="checkbox" name="Roles[]" ID="' . $rName . '" value="' . $rID . '" checked/>' . $rName . '<br>';
+				if(!empty($_POST['Roles'])){
+					if(in_array($rID, $_POST['Roles']))
+						$content .= '<input type="checkbox" name="Roles[]" ID="' . $rName . '" value="' . $rID . '" checked/>' . $rName . '<br>';
+					else
+						$content .= '<input type="checkbox" name="Roles[]" ID="' . $rName . '" value="' . $rID . '" />' . $rName . '<br>';
 				}
-				else
-					$content .= '<input type="checkbox" name="Roles[]" ID="' . $rName . '" value="' . $rID . '" />' . $rName . '<br>';
+				
+				else{
+					if(isset($roleIDs[$rID])){
+						$content .= '<input type="checkbox" name="Roles[]" ID="' . $rName . '" value="' . $rID . '" checked/>' . $rName . '<br>';
+					}
+					
+					else{
+						$content .= '<input type="checkbox" name="Roles[]" ID="' . $rName . '" value="' . $rID . '" />' . $rName . '<br>';
+					}
+				}
 			}
 			
 		}
@@ -180,11 +205,22 @@ class User {
 			}
 			
 			while(list($rName, $rID) = mysql_fetch_row($resultRoles)){
-				if(isset($roleIDs[$rID])){
-					$content .= '<input type="checkbox" name="Roles[]" ID="' . $rName . '" value="' . $rID . '" checked/>' . $rName . '<br />';
+				if(!empty($_POST['Roles'])){
+					if(in_array($rID, $_POST['Roles']))
+						$content .= '<input type="checkbox" name="Roles[]" ID="' . $rName . '" value="' . $rID . '" checked/>' . $rName . '<br>';
+					else
+						$content .= '<input type="checkbox" name="Roles[]" ID="' . $rName . '" value="' . $rID . '" />' . $rName . '<br>';
 				}
-				else
-					$content .= '<input type="checkbox" name="Roles[]" ID="' . $rName . '" value="' . $rID . '" />' . $rName . '<br />';
+				
+				else{
+					if(isset($roleIDs[$rID])){
+						$content .= '<input type="checkbox" name="Roles[]" ID="' . $rName . '" value="' . $rID . '" checked/>' . $rName . '<br>';
+					}
+					
+					else{
+						$content .= '<input type="checkbox" name="Roles[]" ID="' . $rName . '" value="' . $rID . '" />' . $rName . '<br>';
+					}
+				}
 			}
 			
 		}

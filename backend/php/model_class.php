@@ -10,6 +10,7 @@ class Model {
 	public $name;
 	public $modelDescription;
 	public $filename;
+	public $checkfile;
 	public $approved = 0;
 	
 	
@@ -90,12 +91,8 @@ class Model {
 		$content .= '<fieldset class="parentContainer"><legend>Model</legend>';
 		$content .= createTextInput('Name', 'qualilabel', 'name', 'qualiinput_medium', $this->name, true, $errorlist, $erroralttextlist);
 		$content .= createTextArea('Model Description', 'qualilabel', 'modelDescription', 'qualiinput_medium', $this->modelDescription, true, $errorlist, $erroralttextlist, false);
-		$content .= createFileInput('Filename', 'qualilabel', 'filename', 'qualiinput_medium', $this->filename, true, $errorlist, $erroralttextlist);/*'<div class="dataInput"><label>Filename <img src="../images/required.png" alt="required" title="required" class="required"/>:</label>';
-		if(isset($errorlist['filename']))
-			$content .= '<p id="p_filename" class="errMsg">No file selected. Please use the button to select the file of the model you are trying to upload.</p>';
-		$content .= '</div>';
-		$content .= '<div><input type="file" name="filename" id="filename" class="dataButton" aria-described-by="p_filename"></div>';
-		$content .= '</div>';*/
+		$content .= createFileInput('Filename', 'qualilabel', 'filename', 'qualiinput_medium', $this->filename, true, $errorlist, $erroralttextlist);
+		
 		if($_SESSION['admin']){
 			if($this->approved)
 				$content .= '<br><br /><input type="checkbox" name="approved" id="approved" value="1" checked/>approved';
@@ -133,11 +130,22 @@ class Model {
 		$count = 0;
 		$row = "row_1";
 		while(list($id, $device) = mysql_fetch_row($result)){
-			if(isset($tech_ids[$id])){
-				$content .= '<li class="' . $row . '"><input type="checkbox" name="devices[]" value="' . $id . '" id="tech_' . $device . '" class="attrCbx" checked/><label class="attrCbx">'. $device .'</label></li>';
+			if(!empty($_POST['devices'])){
+				if(in_array($id, $_POST['devices'])){
+					$content .= '<li class="' . $row . '"><input type="checkbox" name="devices[]" value="' . $id . '" id="tech_' . $device . '" class="attrCbx" checked/><label class="attrCbx">'. $device .'</label></li>';
+				}
+				else{
+					$content .= '<li class="' . $row . '"><input type="checkbox" name="devices[]" value="' . $id . '" id="tech_' . $device . '" class="attrCbx" /><label class="attrCbx">'. $device .'</label></li>';
+				}
 			}
+			
 			else{
-				$content .= '<li class="' . $row . '"><input type="checkbox" name="devices[]" value="' . $id . '" id="tech_' . $device . '" class="attrCbx" /><label class="attrCbx">'. $device .'</label></li>';
+				if(isset($tech_ids[$id])){
+					$content .= '<li class="' . $row . '"><input type="checkbox" name="devices[]" value="' . $id . '" id="tech_' . $device . '" class="attrCbx" checked/><label class="attrCbx">'. $device .'</label></li>';
+				}
+				else{
+					$content .= '<li class="' . $row . '"><input type="checkbox" name="devices[]" value="' . $id . '" id="tech_' . $device . '" class="attrCbx" /><label class="attrCbx">'. $device .'</label></li>';
+				}
 			}
 			
 			if($i % ($max/3) == 0){
@@ -172,11 +180,19 @@ class Model {
 		$count = 0;
 		$row = "row_1";
 		while(list($id, $category) = mysql_fetch_row($result)){
-			if(isset($dev_cats[$id]))
-				$content .= '<li class="' . $row . '"><input type="checkbox" name="categories[]" value="' . $id . '" id="dev_' . $category . '" class="attrCbx" checked/><label class="attrCbx">'. $category .'</label></li>';
-			else
-				$content .= '<li class="' . $row . '"><input type="checkbox" name="categories[]" value="' . $id . '" id="dev_' . $category . '" class="attrCbx" /><label class="attrCbx">'. $category .'</label></li>';
+			if(!empty($_POST['categories'])){
+				if(in_array($id, $_POST['categories']))
+					$content .= '<li class="' . $row . '"><input type="checkbox" name="categories[]" value="' . $id . '" id="dev_' . $category . '" class="attrCbx" checked/><label class="attrCbx">'. $category .'</label></li>';
+				else
+					$content .= '<li class="' . $row . '"><input type="checkbox" name="categories[]" value="' . $id . '" id="dev_' . $category . '" class="attrCbx" /><label class="attrCbx">'. $category .'</label></li>';
 			
+			}
+			else{
+				if(isset($dev_cats[$id]))
+					$content .= '<li class="' . $row . '"><input type="checkbox" name="categories[]" value="' . $id . '" id="dev_' . $category . '" class="attrCbx" checked/><label class="attrCbx">'. $category .'</label></li>';
+				else
+					$content .= '<li class="' . $row . '"><input type="checkbox" name="categories[]" value="' . $id . '" id="dev_' . $category . '" class="attrCbx" /><label class="attrCbx">'. $category .'</label></li>';
+			}
 			
 			if($i % ($max/3) == 0){
 				$count++;
@@ -210,15 +226,25 @@ class Model {
 		$count = 0;
 		$row = "row_1";
 		while(list($id, $function) = mysql_fetch_row($result)){
-			if(isset($body_funcs[$id]))
-				$content .= '<li class="'. $row . '"><input type="checkbox" name="functions[]" value="' . $id . '" id="body_' . $function . '" class="attrCbx" checked/><label class="attrCbx">'. $function . '</label></li>';
-			else
-				$content .= '<li class="'. $row . '"><input type="checkbox" name="functions[]" value="' . $id . '" id="body_' . $function . '" class="attrCbx" /><label class="attrCbx">'. $function . '</label></li>';			
+			if(!empty($_POST['functions'])){
+				if(in_array($id, $_POST['functions']))
+					$content .= '<li class="'. $row . '"><input type="checkbox" name="functions[]" value="' . $id . '" id="body_' . $function . '" class="attrCbx" checked/><label class="attrCbx">'. $function . '</label></li>';
+				else
+					$content .= '<li class="'. $row . '"><input type="checkbox" name="functions[]" value="' . $id . '" id="body_' . $function . '" class="attrCbx" /><label class="attrCbx">'. $function . '</label></li>';						
+			}
+			
+			else{
+				if(isset($body_funcs[$id]))
+					$content .= '<li class="'. $row . '"><input type="checkbox" name="functions[]" value="' . $id . '" id="body_' . $function . '" class="attrCbx" checked/><label class="attrCbx">'. $function . '</label></li>';
+				else
+					$content .= '<li class="'. $row . '"><input type="checkbox" name="functions[]" value="' . $id . '" id="body_' . $function . '" class="attrCbx" /><label class="attrCbx">'. $function . '</label></li>';			
+			}
 			
 			if($i % ($max/3) == 0){
 				$count++;
 				$row .= "1";
 			}
+			
 			$i++;
 		}
 		$content.='</ul></div></fieldset><br/>';
@@ -559,7 +585,8 @@ class Model {
 			$errMsg += 'Model "'. basename($target_file) . '" file extension not supported.';
 			$err = 0;
 		} else {
-			$upload_file = $target_dir .'M' . $this->ID . '.acs';
+			//$upload_file = $target_dir .'M' . $id . '.acs';
+			$upload_file = $target_dir . $this->filename;
 		}
 		
 		//Check if Errors occurred
@@ -590,7 +617,7 @@ class Model {
 	
 	public function ModelUpdate($tmp_file)
 	{
-		$target_dir = "../models/";
+		$target_dir = "../models/M" . $this->ID . "/";
 		$target_file = $this->filename;
 		$err = 1;
 		$errMsg = '<div class="errorMessage"><p>';

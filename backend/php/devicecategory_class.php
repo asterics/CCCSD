@@ -110,8 +110,12 @@ class DeviceCategory extends BaseClass
 				$content .= '		<td class="modname">' . $name .  '</td>';
 				$content .= '		<td style="text-align: center;" class="image">';
 				//if ($res1 == 0) {
+				if ($this->CheckDelete($id)) {
 					$content .= '			<a href="' . $table .'.php?action=update&amp;state=edit&amp;id=' . $id . '" >';
 					$content .= '			<img src="../images/update.ico" alt="Update Device category &quot;' . $name .'&quot;" title="Update device category &quot;' . $name .'&quot;" class="DataIcons" /></a>';
+				}else {
+					$content .= '			<img src="../images/update.ico" alt="Device category &quot;' . $name .'&quot; can not be updated" title="Device category &quot;' . $name .'&quot; can not be updated" class="DataIconsGrey" /></a>';	
+				}
 				//}
 				$content .=	'		</td>';
 				$content .=	'		<td style="text-align: center;" class="image">';
