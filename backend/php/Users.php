@@ -137,7 +137,7 @@
 										}
 											 
 									} else {
-										echo $user->CreateForm('user update', "users.php?action=update&	;state=do", '');
+										echo $user->CreateForm('user update', "users.php?action=update&amp;state=do", '');
 									}
 									break;
 							} 

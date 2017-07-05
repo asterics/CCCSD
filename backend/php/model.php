@@ -67,16 +67,28 @@
 									echo $model->CreateSelectorTable('Models', '', 'model &quot;' . $model->name . '&quot; could not be saved. ');
 									break;
 								case "do":
+									$file = null;
 									$model->name = $_POST['name'];
 									$model->modelDescription = $_POST['modelDescription'];
-									$model->filename = $_FILES['filename']['name'];
+									/*if(!empty($_FILES['filename']['name']))
+										$model->filename = $_FILES['filename']['name'];*/
+									$model->filename = $model->old_file;
+									/*else
+										$model->filename = '';*/
 									if(isset($_POST['approved']))
 										$model->approved = $_POST['approved'];
 									$err = $model->ValidateFormData();
 									if (!$err) {
 										$_SESSION['model'] = $model;
 										
-										if ($model->ModelUpload($_FILES['filename']['tmp_name'])) {
+										if(!empty($_FILES['filename']['tmp_name']))
+											$file = $_FILES['filename']['tmp_name'];
+										else if(!empty($model->old_tmp_name))
+											$file = $model->old_tmp_name;
+										else
+											$file = null;
+										
+										if ($model->ModelUpload($file)) {
 											if($model->InsertDB()){
 													if($model->ModelRename()){
 														if(isset($_POST['devices'])){

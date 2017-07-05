@@ -91,6 +91,10 @@ class User {
 			$error |= $this->err->CollectErrorsAltTexts('Passwords do not match. Please reenter your passwords', 'Passwords do not match.', 'vpassword');
 		}
 		
+		if(empty($_POST['Roles'])){
+			$error |= $this->err->CollectErrorsAltTexts('No user role selected. Please select at least one of the available user roles.', 'No user role selected.', 'roles');
+		}
+		
 		return $error;
 	}
 
