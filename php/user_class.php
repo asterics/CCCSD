@@ -88,7 +88,7 @@ class User {
 		}		
 		
 		if ($this->password != $this->vPassword){
-			$error |= $this->err->CollectErrorsAltTexts('Passwords do not match. Please reenter your passwords', 'Passwords do not match.', 'vpassword');
+			$error |= $this->err->CollectErrorsAltTexts('Passwords do not match. Please reenter your passwords', 'Passwords do not match.', 'password');
 		}
 		
 		if(empty($_POST['Roles'])){

@@ -70,23 +70,22 @@
 									$file = null;
 									$model->name = $_POST['name'];
 									$model->modelDescription = $_POST['modelDescription'];
-									/*if(!empty($_FILES['filename']['name']))
-										$model->filename = $_FILES['filename']['name'];*/
-									$model->filename = $model->old_file;
-									/*else
-										$model->filename = '';*/
+									$model->filename = $_FILES['filename']['name'];
+									if($model->filename == ""){
+										$model->old_file = $_POST['oldfile'];
+										$model->filename = $model->old_file;	
+										$model->old_tmp_name = $_POST['tmp_name'];
+									}
 									if(isset($_POST['approved']))
 										$model->approved = $_POST['approved'];
 									$err = $model->ValidateFormData();
 									if (!$err) {
 										$_SESSION['model'] = $model;
 										
-										if(!empty($_FILES['filename']['tmp_name']))
-											$file = $_FILES['filename']['tmp_name'];
-										else if(!empty($model->old_tmp_name))
+										if($model->old_tmp_name != "")
 											$file = $model->old_tmp_name;
 										else
-											$file = null;
+											$file = $_FILES['filename']['tmp_name'];
 										
 										if ($model->ModelUpload($file)) {
 											if($model->InsertDB()){

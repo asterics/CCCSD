@@ -120,7 +120,7 @@
 									$user->lastName = $_POST['lastName'];
 									$user->email = $_POST['email'];
 									$user->password = $_POST['password'];
-									$user->vpassword = $_POST['vpassword'];
+									$user->vPassword = $_POST['vpassword'];
 									$err = $user->ValidateUpdateFormData();
 									if (!$err) {
 										$_SESSION['user'] = $user;

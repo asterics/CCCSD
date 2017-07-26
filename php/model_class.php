@@ -12,8 +12,8 @@ class Model {
 	public $filename;
 	public $checkfile;
 	public $approved = 0;
-	public $old_file = null;
-	public $old_tmp_name = null;
+	public $old_file;
+	public $old_tmp_name;
 	
 	function __construct(){
 		$this->err = new Errors();
@@ -94,27 +94,48 @@ class Model {
 		$content .= createTextArea('Model Description', 'qualilabel', 'modelDescription', 'qualiinput_medium', $this->modelDescription, true, $errorlist, $erroralttextlist, false);
 		$content .= createFileInput('Filename', 'qualilabel', 'filename', 'qualiinput_medium', $this->filename, true, $errorlist, $erroralttextlist);
 		
-		$this->old_file = null;
-		$this->old_tmp_name = null;
-		
-		if(!empty($_FILES['filename']['name']))
+		/*if($_FILES['filename']['size'][0]===0){
+			if(!empty($_POST['oldfile']))
+				$this->old_file = $_POST['oldfile'];
+		}
+			
+		else
 			$this->old_file = $_FILES['filename']['name'];
-		else if(!empty($_POST['oldfile']))
-			$this->old_file = $_POST['oldfile'];
+		*/
 		
-		if(!empty($_FILES['filename']['tmp_name']))
+		if($_FILES['filename']['name'] != "")
+			$this->old_file = $_FILES['filename']['name'];
+		
+		if($this->old_file == ""){
+			if(!empty($_POST['oldfile']))
+				$this->old_file = $_POST['oldfile'];
+		}
+		
+		if(!empty($_FILES['filename']['tmp_name'])){
 			$this->old_tmp_name = $_FILES['filename']['tmp_name'];
-		else if(!empty($_POST['tmp_name']))
-			$this->old_tmp_name = $_POST['tmp_name'];		
+			move_uploaded_file($this->old_tmp_name, "../models/tmp/tmp_backup.tmp");
+			$this->old_tmp_name = "../models/tmp/tmp_backup.tmp";
+		}
+		
+		else if(!empty($_POST['tmp_name'])){
+			$this->old_tmp_name = $_POST['tmp_name']; 
+			//rename("../models/tmp/tmp_backup.tmp", "tmp_backup.tmp");
+		}
 		
 		if($this->old_file != null){
 			$content .= '<label id="oldfile_label" name="oldfile_label">currently selected: ' . $this->old_file . '</label>';
 			$content .= '<input type="text" name="oldfile" id="oldfile" value="' . $this->old_file . '" hidden>';
+		}else {
+			$content .= '<input type="text" name="oldfile" id="oldfile" value="" hidden>';
 		}
 		
 		if($this->old_tmp_name != null){
 			$content .= '<input type="text" id="tmp_name" name="tmp_name" value="' . $this->old_tmp_name .'" hidden>';
+		}else {
+			$content .= '<input type="text" id="tmp_name" name="tmp_name" value="" hidden>';
 		}
+		
+		echo "<script type='text/javascript'>alert('$this->old_tmp_name');</script>";
 		
 		if($_SESSION['admin']){
 			if($this->approved)
@@ -620,7 +641,7 @@ class Model {
 		
 		//file upload
 		else{
-			if(move_uploaded_file($tmp_file, $upload_file))
+			if(rename($tmp_file, $upload_file))
 				return $err;
 			else{
 				$errMsg += 'Model "'. basename($upload_file) . '" could not be uploaded</div></p>';
