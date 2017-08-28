@@ -29,6 +29,10 @@ label.attrCbx{
 	vertical-align:middle;
 }
 
+label.oldfile{
+	margin-left: 10em;
+}
+
 li a 
 {
 	display: block;
@@ -502,6 +506,12 @@ input.dataButton{
 
 input.qualiinput_medium{
 	width:300px;
+	/*margin-bottom:2em;*/
+	font-size:1em;
+}
+
+input.qualiinput_medium_file{
+	width:20em;
 	/*margin-bottom:2em;*/
 	font-size:1em;
 }

@@ -3,6 +3,13 @@
 
 //$headerMenue = new headerMenu();
 
+function file_log( $data ){
+	$myfile = fopen("Debug_Log.txt", "a") or die("Unable to open file!");
+	$txt = date("Y-m-d | H:i:s", time()).": ".$data."\n";
+	fwrite($myfile, $txt);
+	fclose($myfile);
+}
+
 function checkIfSessionActive(){
 	if(!isset($_SESSION['ID'])){
 		header("Location: ../index.php");
@@ -108,7 +115,7 @@ function createTextInput($label, $labelclass, $inputname, $inputclass, $inputval
 		if($inputname == 'lastName')
 			$content .= '<div class="err"><p id="p_' . $inputname .'" class="errMsg">No ' . $label . ' entered. Please enter your last name, such as "Doe".</p></div>';
 		if($inputname == 'email')
-			$content .= '<div class="err"><p id="p_' . $inputname .'" class="errMsg">No ' . $label . ' entered. Please enter your email address, such as "johndoe@email.com".</p></div>';
+			$content .= '<div class="err"><p id="p_' . $inputname .'" class="errMsg">No ' . $label . ' entered or entered email is of invalid format. Please reenter your email address, such as "johndoe@email.com".</p></div>';
 		if($inputname == 'username')
 			$content .= '<div class="err"><p id="p_' . $inputname .'" class="errMsg">No ' . $label . ' entered. Please enter your preffered username, such as "JohnDoe90".</p></div>';
 		if($inputname == 'techName')
@@ -292,12 +299,12 @@ function createPassword($label, $labelv, $labelclass, $inputname, $inputnamev, $
 		$content .= '<div class="formrowPass"><input class="' . $inputclass . '" type="password" id="' . $inputnamev . '" name="' . $inputnamev . '" '.$disabled.' aria-required="true" aria-described-by="p_' . $inputnamev . '"/></div>' . "\n";
 	
 	if ($errorlist != '' && $erroralttextlist != '' && isset($errorlist[$inputname])) {
-		$content .= '<div class="err"><p id="p_' . $inputname .'" class="errMsg">No password entered. Please enter a secure password and make sure you do not forget it.</p></div>';
+		$content .= '<div class="err"><p id="p_' . $inputname .'" class="errMsg">No password entered or entered passwords do not match. Please reenter your password.</p></div>';
 	}
 	
-	if ($errorlist != '' && $erroralttextlist != '' && isset($errorlist[$inputnamev])) {
-		$content .= '<div class="err"><p id="p_' . $inputnamev .'" class="errMsg">The entered passwords do not match. Please enter the passwords again.</p></div>';
-	}
+	/*if ($errorlist != '' && $erroralttextlist != '' && isset($errorlist[$inputname])) {
+		$content .= '<div class="err"><p id="p_' . $inputnamev .'Missmatch" class="errMsg">The entered passwords do not match. Please enter the passwords again.</p></div>';
+	}*/
 	
 	return $content;
 }

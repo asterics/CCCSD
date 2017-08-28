@@ -111,8 +111,12 @@ class roles extends BaseClass
 				$content .= '		<td class="modname">' . $name .  '</td>';
 				$content .= '		<td style="text-align: center;" class="image">';
 				//if ($res1 == 0) {
+				if ($this->CheckDelete($id)) {
 					$content .= '			<a href="roles.php?action=update&amp;state=edit&amp;id=' . $id . '" >';
 					$content .= '			<img src="../images/update.ico" alt="Update role &quot;' . $name .'&quot;" title="Update role &quot;' . $name .'&quot;" class="DataIcons" /></a>';
+				}else {
+					$content .= '			<img src="../images/update.ico" alt="Role &quot;' . $name .'&quot; can not be updated" title="Role &quot;' . $name .'&quot; can not be updated" class="DataIconsGrey" /></a>';
+				}
 				//}
 				$content .=	'		</td>';
 				$content .=	'		<td style="text-align: center;" class="image">';

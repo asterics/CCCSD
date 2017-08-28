@@ -111,8 +111,12 @@ class bodyfunctions extends BaseClass
 				$content .= '		<td class="modname">' . $name .  '</td>';
 				$content .= '		<td style="text-align: center;" class="image">';
 				//if ($res1 == 0) {
+				if ($this->CheckDelete($id)) {
 					$content .= '			<a href="bodyfunctions.php?action=update&amp;state=edit&amp;id=' . $id . '" >';
 					$content .= '			<img src="../images/update.ico" alt="Update bodyfunction &quot;' . $name .'&quot;" title="update bodyfunction &quot;' . $name .'&quot;" class="DataIcons" /></a>';
+				}else {
+					$content .= '			<img src="../images/update.ico" alt="Bodyfunction &quot;' . $name .'&quot; can not be updated" title="Bodyfunction &quot;' . $name .'&quot; can not be updated" class="DataIconsGrey" /></a>';
+				}
 				//}
 				$content .=	'		</td>';
 				$content .=	'		<td style="text-align: center;" class="image">';

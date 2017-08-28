@@ -56,17 +56,29 @@
 									echo $model->CreateMySelectorTable('models', '', 'model &quot;' . $model->name . '&quot; could not be saved.');
 									break;
 								case "do":
+									$file = null;
 									$model->name = $_POST['name'];
 									$model->modelDescription = $_POST['modelDescription'];
 									$model->filename = $_FILES['filename']['name'];
+									if($model->filename == ""){
+										$model->old_file = $_POST['oldfile'];
+										$model->filename = $model->old_file;	
+										$model->old_tmp_name = $_POST['tmp_name'];
+									}
 									if(isset($_POST['approved']))
 										$model->approved = $_POST['approved'];
 									$err = $model->ValidateFormData();
 									if (!$err) {
 										$_SESSION['model'] = $model;
 										
-										if ($model->InsertDB()) {
-											if($model->ModelUpload($_FILES['filename']['tmp_name'])){
+										if($model->old_tmp_name != "")
+											$file = $model->old_tmp_name;
+										else
+											$file = $_FILES['filename']['tmp_name'];
+										
+										if($model->ModelUpload($file)){
+											if ($model->InsertDB()) {
+												if($model->ModelRename()){
 													foreach($_POST['devices'] as $device){
 														if(isset($device))
 															$model->ModelLinkTech($device);
@@ -81,6 +93,10 @@
 													}
 													echo 'ok';
 													header("Location: mymodels.php?action=new&state=ok");
+												}else {
+												echo 'not ok';
+												header("Location: mymodels.php?action=new&state=error");
+												}
 												} else {
 												echo 'not ok';
 												header("Location: mymodels.php?action=new&state=error");
@@ -105,7 +121,7 @@
 							switch($_GET['state']) {
 								case "ok":
 									$model = $_SESSION['model'];
-									echo $model->Create-MySelectorTable('My models', 'model &quot;' . $model->name . '&quot; was successfully updated.', '');
+									echo $model->CreateMySelectorTable('My models', 'model &quot;' . $model->name . '&quot; was successfully updated.', '');
 									break;
 								case "error":
 									$model = $_SESSION['model'];
@@ -122,21 +138,30 @@
 									}
 									break;
 								case "do":
+									$file = null;
 									$model = $_SESSION['model'];
 									$model->name = $_POST['name'];
 									$model->modelDescription = $_POST['modelDescription'];
-									if(isset($_FILES['filename']['name']))
-										$model->filename = $_FILES['filename']['name'];
-									else
-										$model->filename = '';
+									
+									$model->filename = $_FILES['filename']['name'];
+									if($model->filename == ""){
+										$model->old_file = $_POST['oldfile'];
+										$model->filename = $model->old_file;	
+										$model->old_tmp_name = $_POST['tmp_name'];
+									}
+									
 									if(isset($_POST['approved']))
 										$model->approved = $_POST['approved'];
 									$err = $model->ValidateFormDataUpdate();
 									if (!$err) {
 										$_SESSION['model'] = $model;
-										if($model->filename != ''){
-												$model->ModelUpdate($_FILES['filename']['tmp_name']);		
-										}
+										
+										if($model->old_tmp_name != "")
+											$file = $model->old_tmp_name;
+										else
+											$file = $_FILES['filename']['tmp_name'];
+										
+										$model->ModelUpdate($file);											
 										
 										if ($model->UpdateDB()) {
 											foreach($_POST['devices'] as $device){

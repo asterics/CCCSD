@@ -35,9 +35,9 @@
 		<ul class ="vertical">
 		<li class="side_active"><a href="users.php">Users</a></li>
 		<?php
-		/*	if($_SESSION['admin'] == 1){
-				echo '<li class="side"><a href="roles.php">Roles</a></li>'; // prepared for future extension of user management
-			}*/
+			if($_SESSION['admin'] == 1){
+				echo '<li class="side"><a href="roles.php">Roles</a></li>';
+			}
 		?>
 		</ul>
 	</nav>
@@ -120,7 +120,7 @@
 									$user->lastName = $_POST['lastName'];
 									$user->email = $_POST['email'];
 									$user->password = $_POST['password'];
-									$user->vpassword = $_POST['vpassword'];
+									$user->vPassword = $_POST['vpassword'];
 									$err = $user->ValidateUpdateFormData();
 									if (!$err) {
 										$_SESSION['user'] = $user;
@@ -137,7 +137,7 @@
 										}
 											 
 									} else {
-										echo $user->CreateForm('user update', "users.php?action=update&	;state=do", '');
+										echo $user->CreateForm('user update', "users.php?action=update&amp;state=do", '');
 									}
 									break;
 							} 
